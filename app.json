@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "医药问答系统"
+  },
+  "permission": {
+    "scope.record": {
+      "desc": "你的录音功能需要使用你的麦克风权限"
+    }
+  }
+}

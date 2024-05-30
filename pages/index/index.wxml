@@ -1,0 +1,54 @@
+<view class="chat-container">
+  <!-- 菜单图标 -->
+  <view class="menu-icon" bindtap="toggleSidebar">
+    <image src="/images/menu_icon.png" class="menu-icon-image"></image>
+  </view>
+
+  <!-- 消息列表 -->
+  <view class="messages">
+    <block wx:for="{{messages}}" wx:key="index">
+      <view class="message user-message" wx:if="{{item.user}}">
+        <text class="message-text">{{item.text}}</text>
+      </view>
+      <view class="message bot-message" wx:if="{{!item.user}}">
+        <image src="/images/bot_avatar.png" class="avatar"></image>
+        <text class="message-text">{{item.text}}</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <button class="toggle-button" bindtap="toggleSuggestions">{{ showSuggestions ? '隐藏' : '显示' }} 输入建议</button>
+    <scroll-view class="suggestions" scroll-x="true" wx:if="{{showSuggestions}}">
+      <button wx:for="{{suggestions}}" wx:key="index" class="suggestion-button" bindtap="addSuggestionToInput" data-suggestion="{{item}}">
+        {{item}}
+      </button>
+    </scroll-view>
+    <view class="input-container">
+      <button
+        bindtouchstart="startVoiceRecognition"
+        bindtouchend="stopVoiceRecognition"
+        class="voice-button"
+      >
+        🎤
+      </button>
+      <input value="{{newMessage}}" bindinput="onInput" placeholder="请输入您的问题..." class="message-input" />
+      <button bindtap="sendMessage" class="send-button">发送</button>
+    </view>
+  </view>
+
+  <!-- 侧边栏遮罩 -->
+  <view class="sidebar-overlay" wx:if="{{showSidebar}}" bindtap="closeSidebar"></view>
+
+  <!-- 侧边栏 -->
+  <view class="sidebar" wx:if="{{showSidebar}}" bindtouchend="handleSidebarTouchEnd" bindtouchstart="handleTouchStart">
+    <view class="sidebar-content">
+      <button class="sidebar-button" bindtap="createNewConversation">新建对话</button>
+      <block wx:for="{{conversations}}" wx:key="index">
+        <button class="sidebar-button" bindtap="switchConversation" data-index="{{index}}">{{item.name}}</button>
+      </block>
+      <button class="sidebar-button" bindtap="logout">退出登录</button>
+    </view>
+  </view>
+</view>
